@@ -30,7 +30,9 @@
     "expo-camera": "~12.1.2",
     "expo-file-system": "~13.1.4",
     "expo-sqlite": "~10.1.0",
-    "expo-asset": "~8.4.6"
+    "expo-asset": "~8.4.6",
+    "@expo/ngrok": "^4.1.0",
+    "expo-location": "~14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
