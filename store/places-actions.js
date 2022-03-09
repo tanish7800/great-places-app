@@ -1,4 +1,5 @@
 import * as FileSystem from 'expo-file-system';
+import ENV from '../env';
 
 import { insertPlace, fetchPlaces } from '../helpers/db';
 
@@ -7,6 +8,17 @@ export const SET_PLACES = 'SET_PLACES';
 
 export const addPlace = (title, image) => {
   return async dispatch => {
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lat}&key=${ENV.googleApiKey}`)
+
+    if(!response.ok) {
+      throw new Error('Something went wrong!');
+    }
+    const resData = await response.json();
+    if(!resData.results) {
+      throw new Error('Something went wrong!');
+    }
+
+    const address = resData.results[0].formatted_adress;
     const fileName = image.split('/').pop();
     const newPath = FileSystem.documentDirectory + fileName;
 
@@ -18,12 +30,12 @@ export const addPlace = (title, image) => {
       const dbResult = await insertPlace(
         title,
         newPath,
-        'Dummy address',
-        15.6,
-        12.3
+        address,
+        location.lat,
+        location.lng
       );
       console.log(dbResult);
-      dispatch({ type: ADD_PLACE, placeData: { id: dbResult.insertId, title: title, image: newPath } });
+      dispatch({ type: ADD_PLACE, placeData: { id: dbResult.insertId, title: title, image: newPath, address:address,coords:{lat:location.lat,lng:location.lng} } });
     } catch (err) {
       console.log(err);
       throw err;
