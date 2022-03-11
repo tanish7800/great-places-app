@@ -47,6 +47,7 @@ const NewPlaceScreen = props => {
           style={styles.textInput}
           onChangeText={titleChangeHandler}
           value={titleValue}
+          keyboardDismissMode='none'
         />
         <ImagePicker onImageTaken={imageTakenHandler} />
         <LocationPicker navigation={props.navigation} onLocationPicked={locationPickedHandler}/>
@@ -61,7 +62,7 @@ const NewPlaceScreen = props => {
 };
 
 NewPlaceScreen.navigationOptions = {
-  headerTitle: 'Add Place'
+  headerTitle: 'Add New Place'
 };
 
 const styles = StyleSheet.create({
